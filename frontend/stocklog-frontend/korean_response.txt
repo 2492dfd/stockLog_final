@@ -1,0 +1,11 @@
+두 가지 요청 모두 처리되었습니다.
+
+1.  **증권사 값 (한글 이름):**
+    `AddStockModal.tsx`에서 증권사를 선택할 때 `brokerage` 상태에 증권사의 한글 이름(예: '키움증권')이 저장되도록 수정했습니다. `handleAdd` 함수에서 이 `brokerage` 값을 `broker`라는 이름으로 백엔드에 전송합니다. 따라서 백엔드는 이제 영문 코드(KIWOOM) 대신 한글 이름을 수신하게 됩니다.
+
+2.  **API 호출 인자 순서:**
+    REST API(JSON 페이로드)에서는 백엔드가 `PortfolioRequestDto`와 같은 DTO 객체로 데이터를 받을 때, **데이터의 순서가 아니라 속성(필드) 이름이 중요합니다.** 프론트엔드에서 JSON 객체를 구성할 때 속성의 순서는 중요하지 않으며, 백엔드는 해당 이름에 맞는 값을 자동으로 매핑합니다.
+
+    현재 프론트엔드(`AddStockModal.tsx`의 `handleAdd` 함수)에서 보내는 데이터의 속성 이름은 백엔드의 `PortfolioRequestDto`가 예상하는 필드 이름과 일치하도록 되어 있습니다 (예: `buyDate`, `broker`, `ticker`, `executedQuantity`, `executionPrice` 등). 따라서 백엔드 서비스 메서드와 올바르게 매칭됩니다.
+
+요약하자면, 백엔드에서 필요한 증권사 한글 이름과 모든 필수 필드들이 올바른 속성 이름으로 JSON 형태로 전송되고 있습니다.

@@ -32,6 +32,7 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
+backend/stocklogprojectbackend/src/main/resources/google-key.json
 
 ### VS Code ###
 .vscode/

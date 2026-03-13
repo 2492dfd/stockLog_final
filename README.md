@@ -192,11 +192,11 @@ JSON 직렬화 과정에서 **Infinite Recursion 발생**
 - 캘린더 기반 매매 기록 관리
 - 거래 종류별 색상 시각화
 - 매수 금액 자동 계산 로직
-- <img width="617" height="889" alt="Image" src="https://github.com/user-attachments/assets/a3b71c6c-0242-41bd-87a0-7e9e305e1e34" />
+<img width="617" height="889" alt="Image" src="https://github.com/user-attachments/assets/a3b71c6c-0242-41bd-87a0-7e9e305e1e34" />
 
 <img width="623" height="894" alt="Image" src="https://github.com/user-attachments/assets/7de7f788-5129-46f0-b1ea-f0cbbb621523" />
 
-<img width="1184" height="202" alt="Image" src="https://github.com/user-attachments/assets/719324e2-7e30-4cb9-8979-2f98116d36e7" />
+<img width="1895" height="781" alt="Image" src="https://github.com/user-attachments/assets/17a5feeb-ab11-430b-9ff4-807734793bbf" />
 
 
 ---

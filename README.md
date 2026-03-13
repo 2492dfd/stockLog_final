@@ -214,6 +214,7 @@ JSON 직렬화 과정에서 **Infinite Recursion 발생**
 
 성과 시각화: 캘린더 하단에 당월 성과가 고정 노출되어, 별도의 계산 없이도 현재 자신의 투자 상태를 즉시 파악할 수 있습니다.
 
+
 <img width="1895" height="781" alt="Image" src="https://github.com/user-attachments/assets/17a5feeb-ab11-430b-9ff4-807734793bbf" />
 <br>
 
@@ -234,6 +235,7 @@ JSON 직렬화 과정에서 **Infinite Recursion 발생**
 <br>
 📈 포트폴리오 현황 (Strategy & Portfolio)
 포트폴리오 화면에서는 사용자의 전체 투자 현황을 직관적인 대시보드 형태로 제공하여, 복잡한 자산 상태를 한눈에 파악할 수 있습니다.
+<br>
 1. 자산 구성 및 종목별 비중
 포트폴리오 원그래프: 보유 중인 종목별 비중을 원그래프(Pie Chart) 형태로 시각화하여, 특정 종목에 대한 쏠림 현상이나 자산 배분 상태를 즉시 확인할 수 있습니다.
 

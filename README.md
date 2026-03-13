@@ -93,51 +93,34 @@ Google Sheets API를 활용하여
 
 # 🏗 시스템 아키텍처 (System Architecture)
 
-Client (React Native)
+graph TD
+    A[Client: React Native] --> B[Controller Layer]
+    B --> C[Service Layer]
+    C --> D[Repository Layer]
+    D --> E[(Database: MySQL)]
 
-      │
-      
-      ▼
-      
-Controller Layer
-      │
-      
-      ▼
-      
-Service Layer
-      │
-      
-      ▼
-      
-Repository Layer
-      │
-      
-      ▼
-      
-Database (MySQL)
+    subgraph External_APIs [External APIs]
+        F[Kiwoom Open API]
+        G[Yahoo Finance API]
+        H[Google Sheets API]
+        I[Gemini AI API]
+    end
 
-
-External APIs
- ├─ Kiwoom Open API
- ├─ Yahoo Finance API
- ├─ Google Sheets API
- └─ Gemini AI API
-
+    C -.-> External_APIs
 ---
 
 src/main/java/com/example/stockLog
-
-├── community        # 커뮤니티 게시판 도메인
-├── graph            # 주식 데이터 시각화 도메인
-├── portfolio        # 사용자 자산 및 포트폴리오 관리
-├── tradelog         # 매매 기록 핵심 도메인
+├── community       # 커뮤니티 게시판 도메인
+├── graph           # 주식 데이터 시각화 도메인
+├── portfolio       # 사용자 자산 및 포트폴리오 관리
+├── tradelog        # 매매 기록 핵심 도메인
 │   ├── controller
 │   ├── dto
 │   ├── entity
 │   ├── repository
 │   └── service
-├── config           # 전역 설정
-└── exception        # GetExceptionHandler
+├── config          # 전역 설정
+└── exception       # GetExceptionHandler
 
 ---
 

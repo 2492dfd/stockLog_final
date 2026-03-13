@@ -92,12 +92,11 @@ Google Sheets API를 활용하여
 ---
 
 # 🏗 시스템 아키텍처 (System Architecture)
-
 graph TD
-    A[Client: React Native] --> B[Controller Layer]
-    B --> C[Service Layer]
-    C --> D[Repository Layer]
-    D --> E[(Database: MySQL)]
+    Client[Client: React Native] --> Controller[Controller Layer]
+    Controller --> Service[Service Layer]
+    Service --> Repository[Repository Layer]
+    Repository --> DB[(Database: MySQL)]
 
     subgraph External_APIs [External APIs]
         F[Kiwoom Open API]
@@ -106,9 +105,9 @@ graph TD
         I[Gemini AI API]
     end
 
-    C -.-> External_APIs
----
+    Service -.-> External_APIs
 
+# 📂 프로젝트 구조 (Directory Structure)
 src/main/java/com/example/stockLog
 ├── community       # 커뮤니티 게시판 도메인
 ├── graph           # 주식 데이터 시각화 도메인
@@ -120,9 +119,7 @@ src/main/java/com/example/stockLog
 │   ├── repository
 │   └── service
 ├── config          # 전역 설정
-└── exception       # GetExceptionHandler
-
----
+└── exception       # Get Exception Handler
 
 # 🛠 트러블슈팅 (Troubleshooting)
 

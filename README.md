@@ -193,6 +193,7 @@ JSON 직렬화 과정에서 **Infinite Recursion 발생**
 - 거래 종류별 색상 시각화
 - 매수 금액 자동 계산 로직
 <img width="617" height="889" alt="Image" src="https://github.com/user-attachments/assets/a3b71c6c-0242-41bd-87a0-7e9e305e1e34" />
+<br>
 📅매매 캘린더
 일별 기록 등록: 캘린더에서 특정 날짜를 선택하여 그날의 매매 내역을 즉시 기록할 수 있습니다.
 
@@ -207,13 +208,14 @@ JSON 직렬화 과정에서 **Infinite Recursion 발생**
 실현 손익: 매도 시 발생한 수익금 및 수익률 자동 계산
 
 <img width="623" height="894" alt="Image" src="https://github.com/user-attachments/assets/7de7f788-5129-46f0-b1ea-f0cbbb621523" />
+<br>
 📈 월간 투자 요약 (Monthly Summary)
 집중 리포트: 해당 월에 발생한 모든 매매 데이터를 자동으로 취합하여 총 실현손익과 평균 수익률을 산출합니다.
 
 성과 시각화: 캘린더 하단에 당월 성과가 고정 노출되어, 별도의 계산 없이도 현재 자신의 투자 상태를 즉시 파악할 수 있습니다.
 
 <img width="1895" height="781" alt="Image" src="https://github.com/user-attachments/assets/17a5feeb-ab11-430b-9ff4-807734793bbf" />
-
+<br>
 
 직관적 피드백: 수익과 손실을 색상 및 이모지로 구분하여 시각적 몰입감을 높였습니다.
 

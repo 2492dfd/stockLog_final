@@ -94,6 +94,7 @@ Google Sheets API를 활용하여
 # 🏗 시스템 아키텍처 (System Architecture)
 
 Layered Architecture 기반으로 시스템을 설계했습니다.
+
 Client (React Native)
 │
 ▼
@@ -116,20 +117,19 @@ External APIs
 
 ---
 
-# 📂 프로젝트 구조 (Directory Structure)
 src/main/java/com/example/stockLog
 
-├── community # 커뮤니티 게시판 도메인
-├── graph # 주식 데이터 시각화 도메인
-├── portfolio # 사용자 자산 및 포트폴리오 관리
-├── tradelog # 매매 기록 핵심 도메인
-│ ├── controller
-│ ├── dto
-│ ├── entity
-│ ├── repository
-│ └── service
-├── config # 전역 설정
-└── exception # GetExceptionHandler
+├── community        # 커뮤니티 게시판 도메인
+├── graph            # 주식 데이터 시각화 도메인
+├── portfolio        # 사용자 자산 및 포트폴리오 관리
+├── tradelog         # 매매 기록 핵심 도메인
+│   ├── controller
+│   ├── dto
+│   ├── entity
+│   ├── repository
+│   └── service
+├── config           # 전역 설정
+└── exception        # GetExceptionHandler
 
 ---
 

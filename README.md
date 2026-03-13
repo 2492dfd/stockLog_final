@@ -213,6 +213,7 @@ JSON 직렬화 과정에서 **Infinite Recursion 발생**
 
 <img width="617" height="890" alt="Image" src="https://github.com/user-attachments/assets/657ac555-dfe3-4fb0-a0df-0041e0b7608e" />
 ---
+
 # 🤔 Technical Decisions
 
 ## 1️⃣ Spring Boot 기반 백엔드 구조 선택

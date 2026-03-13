@@ -110,6 +110,7 @@ graph TD
     Service -.-> External_APIs
 ```
 # 📂 프로젝트 구조 (Directory Structure)
+```text
 src/main/java/com/example/stockLog
 ├── community       # 커뮤니티 게시판 도메인
 ├── graph           # 주식 데이터 시각화 도메인
@@ -122,6 +123,7 @@ src/main/java/com/example/stockLog
 │   └── service
 ├── config          # 전역 설정
 └── exception       # Get Exception Handler
+```
 
 # 🛠 트러블슈팅 (Troubleshooting)
 

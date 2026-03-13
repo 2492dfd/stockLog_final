@@ -193,8 +193,7 @@ JSON 직렬화 과정에서 **Infinite Recursion 발생**
 - 거래 종류별 색상 시각화
 - 매수 금액 자동 계산 로직
 
-![tradelog](images/tradelog.png)
-
+<img width="622" height="882" alt="Image" src="https://github.com/user-attachments/assets/22dee478-f3eb-446e-b294-a5d1044990da" />
 ---
 
 ## 📊 결산 및 전략 관리

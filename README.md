@@ -94,17 +94,26 @@ Google Sheets API를 활용하여
 # 🏗 시스템 아키텍처 (System Architecture)
 
 Client (React Native)
+
       │
+      
       ▼
+      
 Controller Layer
       │
+      
       ▼
+      
 Service Layer
       │
+      
       ▼
+      
 Repository Layer
       │
+      
       ▼
+      
 Database (MySQL)
 
 

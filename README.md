@@ -208,6 +208,10 @@ JSON 직렬화 과정에서 **Infinite Recursion 발생**
 - Google Sheets 실시간 대시보드
 
 <img width="624" height="891" alt="Image" src="https://github.com/user-attachments/assets/b6578578-2178-48c0-a80a-3ac0c86ed2b5" />
+
+<img width="1184" height="202" alt="Image" src="https://github.com/user-attachments/assets/d1954649-4f1d-44fc-90f9-d378adfbb02f" />
+
+<img width="617" height="890" alt="Image" src="https://github.com/user-attachments/assets/657ac555-dfe3-4fb0-a0df-0041e0b7608e" />
 ---
 # 🤔 Technical Decisions
 

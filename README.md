@@ -91,7 +91,9 @@ Google Sheets API를 활용하여
 
 ---
 
-# 🏗 시스템 아키텍처 (System Architecture)
+## 🏗 시스템 아키텍처 (System Architecture)
+
+```mermaid
 graph TD
     Client[Client: React Native] --> Controller[Controller Layer]
     Controller --> Service[Service Layer]
@@ -106,7 +108,6 @@ graph TD
     end
 
     Service -.-> External_APIs
-
 # 📂 프로젝트 구조 (Directory Structure)
 src/main/java/com/example/stockLog
 ├── community       # 커뮤니티 게시판 도메인

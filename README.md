@@ -108,6 +108,7 @@ graph TD
     end
 
     Service -.-> External_APIs
+```
 # 📂 프로젝트 구조 (Directory Structure)
 src/main/java/com/example/stockLog
 ├── community       # 커뮤니티 게시판 도메인

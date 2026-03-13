@@ -93,27 +93,26 @@ Google Sheets API를 활용하여
 
 # 🏗 시스템 아키텍처 (System Architecture)
 
-Layered Architecture 기반으로 시스템을 설계했습니다.
-
 Client (React Native)
-│
-▼
+      │
+      ▼
 Controller Layer
-│
-▼
+      │
+      ▼
 Service Layer
-│
-▼
+      │
+      ▼
 Repository Layer
-│
-▼
+      │
+      ▼
 Database (MySQL)
 
+
 External APIs
-├─ Kiwoom Open API
-├─ Yahoo Finance API
-├─ Google Sheets API
-└─ Gemini AI API
+ ├─ Kiwoom Open API
+ ├─ Yahoo Finance API
+ ├─ Google Sheets API
+ └─ Gemini AI API
 
 ---
 

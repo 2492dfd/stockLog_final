@@ -13,18 +13,16 @@ public enum Tag {
     PositionSizingError("비중 조절 실패");
 
     private final String description;
-
-    // 생성자
     Tag(String description) {
         this.description = description;
     }
 
-    @JsonValue // 🚀 나갈 때(JSON 변환 시) description 값을 사용
+    @JsonValue // 나갈 때 description 값을 사용. 한글 이름
     public String getDescription() {
         return description;
     }
 
-    @JsonCreator // 🚀 들어올 때(JSON 파싱 시) description 값으로 매칭
+    @JsonCreator // 들어올 때 description 값으로 매칭
     public static Tag from(String value) {
         for (Tag tag : Tag.values()) {
             if (tag.getDescription().equals(value)) {

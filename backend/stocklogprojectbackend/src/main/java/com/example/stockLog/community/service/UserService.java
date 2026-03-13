@@ -1,5 +1,6 @@
 package com.example.stockLog.community.service;
 
+import com.example.stockLog.community.config.JwtTokenProvider;
 import com.example.stockLog.community.dto.*;
 import com.example.stockLog.community.entity.User;
 import com.example.stockLog.community.repository.FollowRepository;
@@ -13,14 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class UserService  {
-    //final없으면 @RequiredArgsConstructor에서 객체 주입 안함
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final FollowRepository followRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     //이메일 중복검사 로직 추가
 
-    public Long login(LoginRequestDto loginRequestDto) {
-        //이메일로 유저 찾기
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         User user=userRepository.findByEmail(loginRequestDto.getEmail())
                 .orElseThrow(()->new IllegalArgumentException("가입되지 않은 이메일입니다."));
         //비교시에도 비밀번호를 dummyEncoder로 똑같이 변환한 뒤에 비교해야 함
@@ -28,8 +28,10 @@ public class UserService  {
         if(!user.getPassword().equals(encodedInputPassword)){
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-        //여기서 원래는 토큰 반환
-        return user.getId();
+        //accessToken 생성
+        String accessToken=jwtTokenProvider.createToken(user.getId());
+        //토큰 반환하기. userId를 같이 보내야 함. 사용자 관리
+        return new LoginResponseDto(user.getId(), accessToken);
     }
 
     public Long join(SignupRequestDto dto) {//회원가입
@@ -60,17 +62,12 @@ public class UserService  {
                  .orElseThrow(()->new IllegalArgumentException("해당 아이디를 가진 유저가 없습니다"));
     }
     public void update(Long userId, UpdateProfileDto updateProfileDto){
-        //리포지토리에 기능 필요 없음. JPA는 변경 감지 기능. 유저 객체의 값 바꾸면 JPA가 자동으로 알아채고 DB에 UPDATE 쿼리 넣어줌
-        //사용자가 값을 변경하는 순간(앱에서) 서버의 dto는 변경된 값 저장
-        // 1. 수정할 유저를 먼저 DB에서 가져옴 (영속화)
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
-
-        // 2. 객체의 값만 바꿈 (변경 감지 작동!)
         user.updateProfile(updateProfileDto.getImageUrl(), updateProfileDto.getNickname(), updateProfileDto.getBio());
-        // repository.save()를 안 써도 메서드가 끝나면 자동으로 UPDATE 쿼리가 날아갑니다!
     }
-    @Transactional
+
     public void resetPassword(ResetPasswordDto resetPasswordDto){
         //비밀번호는 암호화되어 알려줄 수 없음. 새로 만들기
         //누구의 비밀번호를 새로 만들것인지
@@ -80,11 +77,11 @@ public class UserService  {
         checkPasswordPolicy(resetPasswordDto.getNewPassword());
         //비밀번호 암호화
         String encodedPassword=dummyEncoder(resetPasswordDto.getNewPassword());
-        //엔티티의 메서드를 호출해서 비번 변경
         user.changePassword(encodedPassword);
     }
     // 비밀번호 암호화를 가정한 임시 메서드 (나중에 Spring Security 적용 시 교체)
-    private String dummyEncoder(String password) {
+    //원래 private여야 하지만 dummy이기도 하고 테스트 코드 작성시 살짝 public으로 바꿈
+    public String dummyEncoder(String password) {
         return "ENC_" + password;
     }
     public void withdraw(Long userId){//탈퇴
@@ -104,12 +101,11 @@ public class UserService  {
         }
     }
 
+    //정보 종합해서 dto에 전달. 화면에 보여줄 정보
     public UserProfileResponseDto getUserProfile(Long userId) {
-        // 1. 유저 엔티티 조회
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다."));
 
-        // 2. 통계 데이터 조회 (Repository에서 count 쿼리 실행)
         Long postCount = postRepository.countByUser(user);
         Long followerCount = followRepository.countByFollowing(user);
         Long followingCount = followRepository.countByFollower(user);

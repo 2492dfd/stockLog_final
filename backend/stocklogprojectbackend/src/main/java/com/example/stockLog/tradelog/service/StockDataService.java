@@ -3,14 +3,10 @@ package com.example.stockLog.tradelog.service;
 import com.example.stockLog.tradelog.dto.StockInfoDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import static reactor.netty.http.HttpConnectionLiveness.log;
 
 @Service
-public class StockDataService {
+public class StockDataService {//구글시트에서 현재가 가져오기
     private final String GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKgs5id0jalahO1hAMaPfsNw_Nac-br24xtqr6Laas-2F1vBCljjzbf6gfgiQKmADZeQbddmHvImo_/pub?gid=0&single=true&output=csv";
 
     /**
@@ -19,7 +15,7 @@ public class StockDataService {
     public StockInfoDto getStockInfo(String ticker) {
         try {
             RestTemplate restTemplate = new RestTemplate();
-            // 🚀 URL 뒤에 ?output=csv가 붙어있는지 꼭 확인하세요!
+            //  URL 뒤에 ?output=csv가 붙어있는지 꼭 확인
             String response = restTemplate.getForObject(GOOGLE_SHEET_CSV_URL, String.class);
 
             if (response != null) {
@@ -47,14 +43,14 @@ public class StockDataService {
                                 dto.setCurrentPrice(parseDouble(columns[3]));
                             }
 
-                            log.info("🎯 매칭 성공: 찾던 티커 {} -> 시트 티커 {} (가격: {})", targetTicker, sheetTicker, dto.getCurrentPrice());
+                            log.info(" 매칭 성공: 찾던 티커 {} -> 시트 티커 {} (가격: {})", targetTicker, sheetTicker, dto.getCurrentPrice());
                             return dto;
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            log.error("❌ 구글 시트 파싱 에러: {}", e.getMessage());
+            log.error(" 구글 시트 파싱 에러: {}", e.getMessage());
         }
         return null;
     }

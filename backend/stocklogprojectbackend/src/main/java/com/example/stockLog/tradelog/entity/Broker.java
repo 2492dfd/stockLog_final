@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Broker {
     // 주요 대형사
-    // 순서: 한글명, 국내수수료율(domesticRate), 해외수수료율(foreignRate)
+    //코드용 이름과 한글용 이름 분리.
     KIWOOM("키움증권", 0.00015, 0.001),            // 국내 0.015%, 해외 0.1%
     TOSS("토스증권", 0.0001, 0.001),               // 국내 0.01%, 해외 0.1%
     MIRAE_ASSET("미래에셋증권", 0.00014, 0.0025),    // 국내 0.014%, 해외 0.25%
@@ -32,7 +32,7 @@ public enum Broker {
     private final double foreignRate;
 
     // 1. 프론트엔드에서 "키움증권"이라고 보내면 KIWOOM 상수를 찾아주는 마법
-    @JsonCreator
+    @JsonCreator//프론트->서버
     public static Broker fromName(String value) {
         for (Broker broker : Broker.values()) {
             if (broker.getName().equals(value)) {
@@ -47,8 +47,8 @@ public enum Broker {
         }
     }
 
-    // 2. 서버에서 프론트엔드로 데이터를 줄 때도 "KIWOOM" 대신 "키움증권"이라고 줄 수 있게 함
-    @JsonValue
+    @JsonValue //서버->프론트 , 이름으로 name으로 나가게됨
+    //프론트에서 영문 받아서 한글로 바꿀 필요 없음. 직렬화
     public String getName() {
         return name;
     }

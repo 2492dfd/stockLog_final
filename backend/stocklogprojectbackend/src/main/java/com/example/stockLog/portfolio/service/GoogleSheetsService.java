@@ -8,7 +8,7 @@ import com.google.api.services.sheets.v4.model.ValueRange;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import jakarta.annotation.PostConstruct;
-import lombok.extern.slf4j.Slf4j; // 롬복 로그 사용 권장
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,41 +20,41 @@ import java.util.List;
 @Slf4j
 public class GoogleSheetsService {
     private final String SPREADSHEET_ID = "1PdAW-rtIi26ngqVVc8okuZ4A0h5wC0Jm8T7gAurewsE";
-    private Sheets sheetsService;
+    private Sheets sheetsService; //google에서 제공하는 google api라이브러리에 포함된 클래스
 
     @PostConstruct
     public void init() throws IOException, GeneralSecurityException {
         InputStream in = getClass().getResourceAsStream("/google-key.json");
+        //in을 통해 파일의 데이터에 접근 가능. 통로라고 이해
+        //파일 없으면 에러
         if (in == null) {
             throw new IOException("google-key.json 파일을 찾을 수 없습니다. src/main/resources 위치를 확인하세요.");
         }
-
+        //구글 인증 객체 생성
         GoogleCredentials credentials = GoogleCredentials.fromStream(in)
                 .createScoped(Collections.singleton(SheetsScopes.SPREADSHEETS));
-
+        //구글 시트 조립 시작.
         sheetsService = new Sheets.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
                 GsonFactory.getDefaultInstance(),
                 new HttpCredentialsAdapter(credentials))
                 .setApplicationName("StockLog")
                 .build();
+        //서버 꺼지기 전까지 이미 필드에 저장되어 있는 sheetsService 사용 가능
     }
 
-    /**
-     * [추가] 종목명으로 TickerMap 시트에서 티커와 시장 정보를 찾아옴
-     */
     public String[] findTickerAndMarket(String stockName) {
         // TickerMap 탭의 A(종목명), B(티커), C(시장) 열을 읽어옴
         List<List<Object>> data = getSheetData("TickerMap!A2:C5000");
 
         if (data != null) {
-            for (List<Object> row : data) {
+            for (List<Object> row : data) { //표에서 한줄씩
                 if (row.size() >= 2) {
                     String sheetStockName = row.get(0).toString().trim();
                     // 사용자가 보낸 이름이 시트의 종목명을 포함하거나 같을 때
                     if (sheetStockName.equals(stockName) || stockName.contains(sheetStockName)) {
-                        String ticker = row.get(1).toString().trim();
-                        String market = (row.size() >= 3) ? row.get(2).toString().trim() : "KRX";
+                        String ticker = row.get(1).toString().trim();//맞으면 티커 가져옴
+                        String market = (row.size() >= 3) ? row.get(2).toString().trim() : "KRX";//시장 있으면 가져오고 없으면 기본값
                         return new String[]{ticker, market};
                     }
                 }
@@ -67,7 +67,8 @@ public class GoogleSheetsService {
     // 시트의 데이터를 읽어옴
     public List<List<Object>> getSheetData(String range) {
         try {
-            ValueRange response = sheetsService.spreadsheets().values()
+            //구글 전용 데이터 배달 상자 ValueRange
+            ValueRange response = sheetsService.spreadsheets().values()//시트 내부의 실제 값에 접근
                     .get(SPREADSHEET_ID, range)
                     .execute();
             return response.getValues();

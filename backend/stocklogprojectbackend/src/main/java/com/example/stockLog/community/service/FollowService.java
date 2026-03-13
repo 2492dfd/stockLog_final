@@ -48,11 +48,10 @@ public class FollowService {
                 .orElseThrow();
         User following=userRepository.findById(followingId)
                 .orElseThrow();
-        //두 사람을 찾고 객체 관계인 Follow 객체 찾기
+        //두 사람을 찾고 객체 관계인 Follow 객체 찾기. unfollow메서드 호출할때는 팔로우 관계였을테니 Follow 객체 존재
         Follow follow=followRepository.findByFollowerAndFollowing(follower, following)
                 .orElseThrow(()->new IllegalArgumentException("팔로우 관계가 아닙니다."));
         followRepository.delete(follow);
-        //deleteById로 하면 follow객체를 만들 이유가 뭐임? 아니 follow객체는 왜만듦?
     }
     @Transactional(readOnly = true)
     public boolean isFollowing(Long followerId, Long followingId){

@@ -58,7 +58,6 @@ public class TradeLog extends BaseTimeEntity {
     @Column(nullable = true)
     private Double executedQuantity = 0.0;
 
-    // 🚨 이번 에러의 주범: purchasePrice에 기본값과 null 허용 추가
     @Builder.Default
     @Column(nullable = true)
     private Double purchasePrice = 0.0;
@@ -136,7 +135,7 @@ public class TradeLog extends BaseTimeEntity {
                                Double executionPrice, Double executedQuantity, Double tradingCost,
                                Double totalCost, String reasonForSale, String reasonForBuy, List<Tag> tags, String chartImageUrl) {
 
-        // 🚀 null 체크를 꼼꼼히 해서 값이 있을 때만 교체
+        // null 체크를 꼼꼼히 해서 값이 있을 때만 교체
         if (marketType != null) this.marketType = marketType;
         if (stockName != null) this.stockName = stockName;
         if (ticker != null) this.ticker = ticker; // 누락되었던 티커 추가

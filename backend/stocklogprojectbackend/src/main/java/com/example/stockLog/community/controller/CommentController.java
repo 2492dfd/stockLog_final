@@ -18,8 +18,6 @@ public class CommentController {
     @PostMapping("/{postId}/comments")
     public ResponseEntity<Long> write(@PathVariable("postId") Long postId,@RequestBody CommentRequestDto commentRequestDto,
                                       @AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("👉 주소에서 받은 postId: " + postId);
-        System.out.println("👉 DTO에서 받은 text: " + commentRequestDto.getText());
         Long commentId=commentService.write(
                 userDetails.getUsername(),
                 postId,

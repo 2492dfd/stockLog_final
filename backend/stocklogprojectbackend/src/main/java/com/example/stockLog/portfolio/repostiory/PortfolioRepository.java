@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface PortfolioRepository extends JpaRepository<PortfolioEntity, Long> {
     List<PortfolioEntity> findByUserId(Long id);
-
 }

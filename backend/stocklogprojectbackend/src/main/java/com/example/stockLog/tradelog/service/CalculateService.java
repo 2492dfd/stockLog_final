@@ -1,3 +1,4 @@
+/*
 package com.example.stockLog.tradelog.service;
 
 import com.example.stockLog.tradelog.dto.CalculateDto;
@@ -42,3 +43,4 @@ public class CalculateService {
         }
 
     }
+*/

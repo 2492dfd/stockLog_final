@@ -5,7 +5,6 @@ import com.example.stockLog.community.dto.LoginRequestDto;
 import com.example.stockLog.community.dto.LoginResponseDto;
 import com.example.stockLog.community.dto.SignupRequestDto;
 import com.example.stockLog.community.dto.UserProfileResponseDto;
-import com.example.stockLog.community.entity.User;
 import com.example.stockLog.community.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,10 +26,8 @@ public class AuthController {
     }
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
-        // 1. 실제 DB에서 유저 확인 (이 로직은 서비스에 있겠죠?)
-        Long userId=userService.login(loginRequestDto);
-        String token= jwtTokenProvider.createToken(userId);
-        return ResponseEntity.ok(new LoginResponseDto(token));
+        LoginResponseDto dto=userService.login(loginRequestDto);
+        return ResponseEntity.ok(dto);
     }
     @GetMapping("/users/{userId}")
        public ResponseEntity<UserProfileResponseDto> getUserProfile(@PathVariable

@@ -23,36 +23,26 @@ public class PostService {
     private final HeartRepository heartRepository;
     private final UserRepository userRepository; //유저 정보 추가
 
-    @Transactional
     public Post write(Long userIdFromToken, PostCreateRequestDto postCreateRequestDto) {
-        //postRepository.save(post);
-        //글 쓴 유저를 알아야 함
         User user=userRepository.findById(userIdFromToken)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 유저입니다."));
-        //유저와 게시글 연결
         Post post=Post.builder()
                 .user(user)
                 .title(postCreateRequestDto.getTitle())
                 .content(postCreateRequestDto.getContent())
                 .imageUrl(postCreateRequestDto.getImageUrl())
-                .view(0L)
                 .build();
         return postRepository.save(post);
     }
-    @Transactional
     public void delete(Long postId) {
         postRepository.deleteById(postId);
     }
-    @Transactional
     public void update(Long postId, PostUpdateRequestDto postUpdateRequestDto) {
-        //postRepository.save(post);
-        //save를 명시적으로 부르지 않음. 변경 감지
         Post post=postRepository.findById(postId)
                 .orElseThrow(()-> new IllegalArgumentException("게시글이 없습니다."));
         post.updatePost(postUpdateRequestDto.getTitle(), postUpdateRequestDto.getContent(), postUpdateRequestDto.getImageUrl());
     }
-    //뷰 증가
-    @Transactional
+    //뷰 증가. 좋아요수 관리
     public PostResponseDto getPostDetail(Long postId, Long userId) {
         Post post = postRepository.findByIdWithUser(postId)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다."));
@@ -61,7 +51,7 @@ public class PostService {
 
         Long count = heartRepository.countByPost(post);
         boolean hearted = false;
-        if (userId != null) {
+        if (userId != null) {//해킹 방지용..? 프론트엔드 거치지 않고 해킹 가능. 이중 체킹
             // 로그인한 사용자의 경우에만 좋아요 여부 확인
             User user = userRepository.findById(userId)
                     .orElse(null); // 사용자가 없을 수도 있으므로 orElse(null) 처리
@@ -72,9 +62,10 @@ public class PostService {
 
         return new PostResponseDto(post, count, hearted);
     }
-    @Transactional
+
     public List<PostResponseDto> getPostAll(Long userId){
         List<Post> posts = postRepository.findAllWithUser(); // DB에 있는 모든 게시글 가져옴
+        //fetch join해서 user까지 한꺼번에 가져옴
 
         return posts.stream()
                 .map(post -> {

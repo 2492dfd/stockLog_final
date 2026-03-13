@@ -23,7 +23,7 @@ public class PostController {
     public ResponseEntity<PostResponseDto> write(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody PostCreateRequestDto postCreateRequestDto) {
         //id, title, content, imageUrl
         Post savedPost=postService.write(
-               userDetails.getId(),
+                userDetails.getId(),
                 postCreateRequestDto
         );
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -43,9 +43,7 @@ public class PostController {
     }
     @GetMapping("/posts")
     public ResponseEntity<List<PostResponseDto>> getAll(@RequestParam(required = false) Long userId) {
-        // 1. 서비스에게 "모든 게시글을 DTO 리스트로 가져와줘"라고 시킵니다.
         List<PostResponseDto> responseList = postService.getPostAll(userId);
-        // 2. 받은 리스트를 200 OK 상태 코드와 함께 상자에 담아 보냅니다.
         return ResponseEntity.ok(responseList);
     }
     @GetMapping("/posts/{postId}")

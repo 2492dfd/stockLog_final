@@ -20,36 +20,30 @@ public class AiAnalysisService {
     private final WebClient webClient;
 
     public String sendPrompt(String text) {
-        // 1. 키 값에 혹시 모를 공백이 섞여있을 수 있으니 trim()으로 확실히 제거합니다.
         String cleanKey = apiKey.trim();
-
-        // 2. 모델명과 주소를 한 글자의 오타도 없이 조립합니다. (v1beta 사용)
+        //내가 어디로 보낼지.
         String url = "https://generativelanguage.googleapis.com/v1/models?key=" + cleanKey;
-
-        // 3. (중요) 실제 호출 직전의 URL 주소를 인텔리제이 콘솔에 찍어서 눈으로 확인합니다.
-        System.out.println("🚨 [호출 주소 확인]: " + url);
-
+        //google이 정한 규칙대로 포장.
         Map<String, Object> part = Map.of("text", text);
         Map<String, Object> content = Map.of("parts", List.of(part));
         Map<String, Object> body = Map.of("contents", List.of(content));
-
+        //실제로 전달하는 부분
         try {
-            System.out.println("🚨 호출 주소: " + url);
-
             return webClient.post()
                     .uri(url)
-                    .bodyValue(body) // 🚀 정제된 바디 전달
+                    .bodyValue(body)
                     .retrieve()
+                    //에러 조치하기 위해 .onStatus()
                     .onStatus(status -> status.isError(), response ->
                             response.bodyToMono(String.class).flatMap(error -> {
-                                System.err.println("🚨 구글 응답 에러: " + error); // 여기서 진짜 에러 이유가 찍힙니다!
+                                System.err.println("구글 응답 에러: " + error); // 여기서 진짜 에러 이유가 찍힙니다!
                                 return Mono.error(new RuntimeException(error));
                             })
                     )
                     .bodyToMono(String.class)
                     .block();
         } catch (Exception e) {
-            System.err.println("❌ 최종 실패: " + e.getMessage());
+            System.err.println("최종 실패: " + e.getMessage());
             return null;
         }
     }

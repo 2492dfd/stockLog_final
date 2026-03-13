@@ -11,12 +11,13 @@ import java.util.Collection;
 @Getter
 public class CustomUserDetails implements UserDetails {
     private final User user; // 우리 프로젝트의 실제 User 엔티티
+    //User 엔티티를 스프링 시큐리티가 이해할 수 있게 포장하는 역할
 
     public CustomUserDetails(User user) {
         this.user = user;
     }
 
-    // [핵심] 컨트롤러에서 userDetails.getId()로 바로 꺼내 쓸 수 있게 추가
+    // 컨트롤러에서 userDetails.getId()로 바로 꺼내 쓸 수 있게 추가
     public Long getId() {
         return user.getId();
     }

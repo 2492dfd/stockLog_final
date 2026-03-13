@@ -11,19 +11,20 @@ import java.util.Map;
 @RestControllerAdvice
 public class GetExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
-       public ResponseEntity<Map<String, String>> handleIllegalArgumentException
-            (IllegalArgumentException e) {
-               Map<String, String> errorResponse = new HashMap<>();
-                 errorResponse.put("message", e.getMessage());
-                 return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-             }
+    public ResponseEntity<ErrorResponseDto> handleIllegalArgumentException(IllegalArgumentException e) {
+        ErrorResponseDto response = ErrorResponseDto.builder()
+                .message(e.getMessage())
+                .code("BAD_REQUEST")
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 
-                @ExceptionHandler(IllegalStateException.class)
-       public ResponseEntity<Map<String, String>> handleIllegalStateException
-            (IllegalStateException e) {
-                 Map<String, String> errorResponse = new HashMap<>();
-                 errorResponse.put("message", e.getMessage());
-                 // '중복'과 같은 상태 충돌은 409 Conflict 상태 코드가 더 적절합니다.
-                 return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-                      }
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponseDto> handleIllegalStateException(IllegalStateException e) {
+        ErrorResponseDto response = ErrorResponseDto.builder()
+                .message(e.getMessage())
+                .code("CONFLICT")
+                .build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
 }

@@ -27,7 +27,7 @@ public class Post extends BaseTimeEntity{
     private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL) // 5. 댓글 연결 (1:N)
-    @Builder.Default
+    @Builder.Default //new ArrayList 그대로 사용
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)

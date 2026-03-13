@@ -19,7 +19,7 @@ public class PortfolioEntity {
     @Column(nullable = false)
     private String stockName;
     private String ticker;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) //단방향
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -40,8 +40,4 @@ public class PortfolioEntity {
     @Column(nullable = true)
     private Double totalCost;
 
-
-    public void updatePortfolio(){
-
-    }
 }

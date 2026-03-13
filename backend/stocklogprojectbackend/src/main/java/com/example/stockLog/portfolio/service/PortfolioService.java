@@ -25,11 +25,8 @@ public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
     private final UserRepository userRepository;
     private final StockDataService stockDataService;
-    private final GoogleSheetsService googleSheetsService; // 🚀 시트 서비스 주입
+    private final GoogleSheetsService googleSheetsService;
 
-    /**
-     * 포트폴리오 저장
-     */
     public void write(Long userId, PortfolioRequestDto dto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
@@ -88,7 +85,7 @@ public class PortfolioService {
         PortfolioEntity portfolio = portfolioRepository.findById(portfolioId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 기록을 찾을 수 없습니다."));
 
-        // 2. 현재가 다시 가져오기 (수정 시점의 수익률 갱신용)
+        // 2. 현재가 다시 가져오기
         double currentPrice = fetchCurrentPriceFromSheet(portfolio.getTicker());
 
         double newPrice = (dto.getExecutionPrice() != null) ? dto.getExecutionPrice() : portfolio.getExecutionPrice();
@@ -99,14 +96,13 @@ public class PortfolioService {
         double unrealizedPL = (currentPrice > 0) ? (currentPrice - newPrice) * newQuantity : 0.0;
         double rateOfReturn = (newPrice > 0 && currentPrice > 0) ? ((currentPrice - newPrice) / newPrice) * 100 : 0.0;
 
-        // 4. 엔티티 업데이트 (Dirty Checking에 의해 자동 저장됨)
+        // 4. 엔티티 업데이트
         portfolio.setExecutionPrice(newPrice);
         portfolio.setExecutedQuantity(newQuantity);
         portfolio.setTotalCost(newTotalCost);
         portfolio.setRealizedPL(unrealizedPL);
         portfolio.setRateOfReturn(rateOfReturn);
 
-        // 만약 매수일도 수정 가능하다면 추가
         if (dto.getBuyDate() != null) {
             portfolio.setBuyDate(dto.getBuyDate());
         }
@@ -125,10 +121,6 @@ public class PortfolioService {
 
         // 2. DB에서 삭제
         portfolioRepository.delete(portfolio);
-
-        // 3. (선택사항) 만약 구글 시트에서도 실시간으로 해당 티커를 빼고 싶다면
-        // googleSheetsService.removeTicker(portfolio.getTicker());
-
         log.info("🎯 포트폴리오 삭제 완료: 유저ID={}, 종목={}, 티커={}", userId, portfolio.getStockName(), portfolio.getTicker());
     }
 

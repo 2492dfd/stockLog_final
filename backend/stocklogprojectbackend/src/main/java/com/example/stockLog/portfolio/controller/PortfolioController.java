@@ -48,7 +48,6 @@ public class PortfolioController {
     @GetMapping("/list")
     public ResponseEntity<List<PortfolioResponseDto>> getPortfolioList(
             @AuthenticationPrincipal CustomUserDetails userDetails) {
-        // 🚀 고정된 4L 대신 로그인한 유저의 실제 ID를 사용합니다.
         Long userId = userDetails.getUser().getId();
         return ResponseEntity.ok(portfolioService.getPortfolioList(userId));
     }
@@ -57,20 +56,16 @@ public class PortfolioController {
     @GetMapping("/summary")
     public ResponseEntity<PortfolioSummaryDto> getSummary(
             @AuthenticationPrincipal CustomUserDetails userDetails) {
-        // 🚀 고정된 4L 대신 로그인한 유저의 실제 ID를 사용합니다.
         Long userId = userDetails.getUser().getId();
         PortfolioSummaryDto summary = portfolioService.getPortfolioSummary(userId);
         return ResponseEntity.ok(summary);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteStock(
-            @AuthenticationPrincipal CustomUserDetails userDetails, // 👈 클래스명 변경
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long id
     ) {
-        // userDetails에서 getId() 메서드가 있다면 바로 사용하고,
-        // 만약 User 객체 전체를 가지고 있다면 userDetails.getUser().getId() 식으로 접근하세요.
         portfolioService.deletePortfolioItem(userDetails.getUser().getId(), id);
-
         return ResponseEntity.ok("종목이 성공적으로 삭제되었습니다.");
     }
 }

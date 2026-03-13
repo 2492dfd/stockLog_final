@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    //설정 클래스
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository; // UserRepository 주입
 
@@ -31,12 +32,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Pre-flight(OPTIONS) 요청은 무조건 허용 (CORS 해결의 핵심)
+                        // Pre-flight(OPTIONS) 요청은 무조건 허용. 정찰병은 무조건 들여보내줌
                         .requestMatchers(org.springframework.web.cors.CorsUtils::isPreFlightRequest).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/posts/**").hasAnyRole("USER", "ADMIN")
-                        // 아래 경로가 확실히 인증된 사용자만 접근 가능하도록 설정
-                        .requestMatchers("/error").permitAll() // 🚨 이 줄을 반드시 추가하세요!
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/tradelogs/**").hasAnyRole("USER", "ADMIN") // 혹은 .authenticated()
                         .anyRequest().authenticated()
                 )
@@ -46,16 +46,13 @@ public class SecurityConfig {
 
         return http.build();
     }
-
     @Bean
     public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
         org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
-
-        // 🚨 수정: localhost 뿐만 아니라 IP 접속도 허용하도록 변경
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true); //쿠키나 인증 헤더를 포함한 요청을 허용.
         configuration.addExposedHeader("Authorization");
 
         org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();

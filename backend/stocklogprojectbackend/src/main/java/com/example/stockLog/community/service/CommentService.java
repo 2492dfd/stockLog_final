@@ -19,7 +19,6 @@ public class CommentService {
     private final PostRepository postRepository;
 
     //write, update, delete
-    @Transactional
     public Long write(String email,Long postId,String text){
         User user=userRepository.findByEmail(email)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 유저입니다."));
@@ -33,7 +32,7 @@ public class CommentService {
         commentRepository.save(comment);
         return comment.getId();
     }
-    @Transactional
+
     public void update(Long commentId, Long userId,String text){
         Comment comment=commentRepository.findById(commentId)
                 .orElseThrow(()->new IllegalArgumentException("댓글이 없습니다."));
@@ -45,7 +44,7 @@ public class CommentService {
 
         comment.updateComment(text);
     }
-    @Transactional
+
     public void delete(Long commentId, Long userId){
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("댓글이 없습니다."));

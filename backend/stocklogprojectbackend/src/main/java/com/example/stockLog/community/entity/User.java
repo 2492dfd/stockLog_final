@@ -9,8 +9,7 @@ import java.util.List;
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED) //기본 생성자 접근 제어
-//추가
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class User extends BaseTimeEntity{
     @Id
